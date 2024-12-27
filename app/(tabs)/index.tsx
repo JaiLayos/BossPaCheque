@@ -1,47 +1,61 @@
 import React from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { Pressable, SafeAreaView, Text, View } from 'react-native';
-import { useRouter } from 'expo-router';
+import { SafeAreaView, Text, View } from 'react-native';
+import { router } from 'expo-router';
 import { Image } from 'expo-image';
 import { Asset } from 'expo-asset';
-import { useFonts } from 'expo-font';
 import './../global.css';
+import { HapticTab } from '@/components/HapticTab';
+import { StatusBar } from 'expo-status-bar';
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
 
-
-const uploadIcon = Asset.fromModule(require("../../assets/images/upload.png")).uri;
+const uploadIcon = Asset.fromModule(require("@/assets/images/upload.png")).uri;
+const helpIcon = Asset.fromModule(require("@/assets/images/whatsthis.png")).uri;
 
 
 export default function Index() {
-  const [fontsLoaded] = useFonts({
-    'Source Sans 3': require('../../assets/fonts/SourceSans3-VariableFont_wght.ttf'), // Make sure the path is correct
-  });
-
-  if (!fontsLoaded) {
-    return <Text>Loading...</Text>; // Or a loading spinner
-  }
-
-  const router = useRouter();
-
-  const next = () => {
-    router.push('/explore');
-  }
 
   return (
-    <>
-      <StatusBar style="light" />
-      <SafeAreaView className="flex-1 border-2 w-full bg-white items-center">
-        <View className="h-10 border-2 bg-primary_green w-full" />
-        <Pressable className="border-2 border-secondary_nuance w-5/6 mt-5 items-center flex" onPress={next}>
-          <View className='flex-col p-8'>
-            <Image
-              source={{uri:uploadIcon}}
-              style={{ width: 190, height: 170 }}
-              contentFit='cover'
-            />
-            <Text className='text-center font-[Source Sans 3]'>Upload and Clean Dataset</Text>
-          </View>
-        </Pressable>
-      </SafeAreaView>
-    </>
+    <SafeAreaView className="flex-1 w-full bg-white items-center py-12">
+      <HapticTab 
+        className="border-2 border-secondary_nuance w-5/6 mt-5 items-center flex rounded-xl shadow" 
+        onPress={() => router.navigate('/upload')}
+      >
+        <View className='flex-col p-8'>
+          <Image
+            source={{uri:uploadIcon}}
+            style={{ width: 190, height: 170 }}
+            contentFit='cover'
+          />
+          {/* implementation of new font */}
+          <ThemedText  
+            fontFamily='spaceMonoRegular'
+            className='text-center'
+          >
+            <ThemedText className='color-blue-900'>Upload </ThemedText> 
+            and 
+            <ThemedText className='color-blue-900'> Clean </ThemedText> 
+            Dataset
+          </ThemedText>
+        </View>
+      </HapticTab>
+      <HapticTab
+        className="border-2 border-secondary_nuance w-5/6 mt-5 items-center flex rounded-xl shadow" 
+        onPress={() => router.navigate('/help')}
+      >
+        <View className='flex-col p-8'>
+          <Image
+            source={{uri:helpIcon}}
+            style={{ width: 190, height: 170 }}
+            contentFit='cover'
+          />
+          {/* implementation of new font */}
+          <ThemedText className={`text-center font-spaceMonoRegular`}>
+            <ThemedText className='color-blue-900'>How </ThemedText> 
+            to use this app?
+          </ThemedText>
+        </View>
+      </HapticTab>
+    </SafeAreaView>
   );
 }

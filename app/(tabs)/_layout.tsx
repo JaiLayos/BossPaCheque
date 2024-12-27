@@ -9,7 +9,9 @@ const Rootlayout = () => {
     <Stack>
         <Stack.Screen name="index" 
         options={{headerShown: false}}/>
-        <Stack.Screen name="explore" 
+        <Stack.Screen name="help"    
+        options={{headerShown: false}}/>
+        <Stack.Screen name="upload" 
         options={{headerShown: false}}/>
     </Stack>
   )

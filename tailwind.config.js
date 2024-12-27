@@ -10,7 +10,9 @@ module.exports = {
         secondary_nuance: '#d9d9d9'
       },
       fontFamily: {
-        forReading: ['Source Sans 3']
+        sourceSans3Italic: ['SourceSans3-Italic'],
+        sourceSans3Regular: ['SourceSans3-Regular'],
+        spaceMonoRegular: ['SpaceMono-Regular']
       }
     },
   },
