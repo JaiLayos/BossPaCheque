@@ -2,6 +2,7 @@ import React from 'react';
 import { SafeAreaView, TouchableOpacity, StatusBar, View, Image } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { HapticTab } from '@/components/HapticTab';
+import Feather from '@expo/vector-icons/Feather';
 
 
 export default function Upload() {
@@ -14,14 +15,18 @@ export default function Upload() {
         source={require('@/assets/images/logo.png')}
       />
 
-      <View className="bg-stone-900 w-4/5 h-4/5 rounded-lg p-6 items-center ">
-        <HapticTab className="border-2 bg-teal-800 border-white px-8 py-4 rounded-lg mb-6">
-          <ThemedText
-            fontFamily='sourceSans3Italic'
-            type='title'
-          >
-            UPLOAD
-          </ThemedText>
+      <View className="bg-stone-100 w-4/5 h-4/5 rounded-lg p-6 items-center ">
+        <HapticTab className="border-2 bg-teal-800 border-white px-12 py-4 rounded-lg mb-6">
+          <View className="flex-row items-center">
+          <Feather name="download" size={24} color="#1c1917"/>
+            <ThemedText
+              fontFamily='sourceSans3Italic'
+              type='title'
+              className= "text-stone-900 ml-4"
+            >
+              UPLOAD
+            </ThemedText>
+          </View>
         </HapticTab>
         <ThemedText 
           className="text-center text-white mt-4 bg-white"
