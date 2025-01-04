@@ -1,6 +1,7 @@
 import React from 'react';
 import { SafeAreaView, TouchableOpacity, StatusBar, View, Image } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
+import { HapticTab } from '@/components/HapticTab';
 
 
 export default function Upload() {
@@ -14,14 +15,14 @@ export default function Upload() {
       />
 
       <View className="bg-stone-900 w-4/5 h-4/5 rounded-lg p-6 items-center ">
-        <TouchableOpacity className="border-2 bg-teal-800 border-white px-8 py-4 rounded-lg mb-6">
+        <HapticTab className="border-2 bg-teal-800 border-white px-8 py-4 rounded-lg mb-6">
           <ThemedText
             fontFamily='sourceSans3Italic'
             type='title'
           >
             UPLOAD
           </ThemedText>
-        </TouchableOpacity>
+        </HapticTab>
         <ThemedText 
           className="text-center text-white mt-4 bg-white"
         >
