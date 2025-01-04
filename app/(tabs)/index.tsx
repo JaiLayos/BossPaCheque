@@ -5,20 +5,17 @@ import { Image } from 'expo-image';
 import { Asset } from 'expo-asset';
 import './../global.css';
 import { HapticTab } from '@/components/HapticTab';
-import { StatusBar } from 'expo-status-bar';
 import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
 
 const uploadIcon = Asset.fromModule(require("@/assets/images/upload.png")).uri;
 const helpIcon = Asset.fromModule(require("@/assets/images/whatsthis.png")).uri;
-
 
 export default function Index() {
 
   return (
     <SafeAreaView className="flex-1 w-full bg-white items-center py-12">
       <HapticTab 
-        className="border-2 border-secondary_nuance w-5/6 mt-5 items-center flex rounded-xl shadow" 
+        className="border-2 border-secondary_nuance w-5/6 mt-5 items-center flex rounded-xl" 
         onPress={() => router.navigate('/upload')}
       >
         <View className='flex-col p-8'>
@@ -40,7 +37,7 @@ export default function Index() {
         </View>
       </HapticTab>
       <HapticTab
-        className="border-2 border-secondary_nuance w-5/6 mt-5 items-center flex rounded-xl shadow" 
+        className="border-2 border-secondary_nuance w-5/6 mt-5 items-center flex rounded-xl" 
         onPress={() => router.navigate('/help')}
       >
         <View className='flex-col p-8'>
