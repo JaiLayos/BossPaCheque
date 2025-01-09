@@ -10,22 +10,22 @@ export default function Index(){
               className="w-40 h-16 px-4 mb-10 ml-4 self-start"
               source={require('@/assets/images/logo.png')}
       />
-      <SafeAreaView className="ml-8">
-      <Collapsible title="Uploading a CSV File to the app">
+      <SafeAreaView className="ml-10">
+      <Collapsible title="Upload a CSV File to the app">
         <ThemedText>
           - First step {"\n"}
           - Second step {"\n"}
         </ThemedText>
       </Collapsible>
 
-      <Collapsible title="Viewing the Mismatched Words on the dataset">
+      <Collapsible title="View the Mismatched Words">
         <ThemedText>
           - First step {"\n"}
           - Second step {"\n"}
         </ThemedText>
       </Collapsible>
 
-      <Collapsible title="Editing Mismatched Words on the dataset">
+      <Collapsible title="Edit Mismatched Words">
         <ThemedText>
           - First step {"\n"}
           - Second step {"\n"}
