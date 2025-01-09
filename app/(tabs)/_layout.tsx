@@ -13,6 +13,8 @@ const Rootlayout = () => {
         options={{headerShown: false}}/>
         <Stack.Screen name="upload" 
         options={{headerShown: false}}/>
+        <Stack.Screen name="mismatched" 
+        options={{ headerShown: false }} />
     </Stack>
   )
 }

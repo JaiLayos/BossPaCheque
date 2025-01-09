@@ -39,7 +39,7 @@ export default function Index(){
         </ThemedText>
       </Collapsible>
 
-      <Collapsible title="Reviewing and Exporting the Updated Dataset">
+      <Collapsible title="Exporting the Updated Dataset">
         <ThemedText>
           - First step {"\n"}
           - Second step {"\n"}
