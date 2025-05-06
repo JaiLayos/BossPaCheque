@@ -12,7 +12,9 @@ const Rootlayout = () => {
         <Stack.Screen name="help"    
         options={{headerShown: false}}/>
         <Stack.Screen name="upload" 
-        options={{headerShown: false}}/>
+        options={{ headerShown: false }} />
+        <Stack.Screen name="clean" 
+        options={{ headerShown: false }} />
         <Stack.Screen name="mismatched" 
         options={{ headerShown: false }} />
     </Stack>
