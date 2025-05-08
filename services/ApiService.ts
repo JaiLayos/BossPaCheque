@@ -1,4 +1,3 @@
-import { API_BASE_URL } from "@env";
 import { ENDPOINTS } from "@/constants/ApiConfig";
 
 export const uploadFile = async (fileId: string, file: { uri: string; name: string; type: string }) => {
@@ -12,7 +11,7 @@ export const uploadFile = async (fileId: string, file: { uri: string; name: stri
 
   const endpoint = ENDPOINTS.uploadFile.replace("{file_id}", fileId);
 
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+  const response = await fetch(`${process.env.EXPO_PUBLIC_API_BASE_URL}${endpoint}`, {
     method: "POST",
     headers: {
       "Content-Type": "multipart/form-data",

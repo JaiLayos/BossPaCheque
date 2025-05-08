@@ -1,9 +1,8 @@
-import { API_BASE_URL } from "@env";
 import { ENDPOINTS } from "@/constants/ApiConfig";
 
 export const connectToWebSocket = (fileId: string) => {
   const ws = new WebSocket(
-    `${API_BASE_URL.replace("http", "ws")}${ENDPOINTS.websocketCleaner.replace("{file_id}", fileId)}`
+    `${process.env.EXPO_PUBLIC_API_BASE_URL?.replace("http", "ws")}${ENDPOINTS.websocketCleaner.replace("{file_id}", fileId)}`
   );
 
   ws.onopen = () => {
