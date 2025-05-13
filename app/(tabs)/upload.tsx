@@ -41,19 +41,19 @@ export default function Upload() {
   };
 
   return (
-    <SafeAreaView className="flex-1 border-2 w-full bg-white items-center justify-center py-12">
+    <SafeAreaView className="flex-1 w-full bg-white items-center py-12">
       <Image
-        className="w-40 h-16 px-4 mb-10 ml-4 self-start"
+        className="w-40 h-16 px-4 mb-10 ml-4 mt-5 self-start"
         source={require("@/assets/images/logo.png")}
       />
 
-      <View className="bg-stone-100 w-4/5 h-4/5 rounded-lg p-6 items-center">
+      <View className="bg-stone-100 w-4/5 h-fit rounded-lg p-6 items-center border border-stone-300">
         <TouchableOpacity
-          className="border-2 bg-teal-800 border-white px-12 py-4 rounded-lg mb-6"
+          className="border-2 bg-stone border-stone-300 px-12 py-4 rounded-lg mb-6"
           onPress={handleFileUpload}
         >
           <View className="flex-row items-center">
-            <Feather name="upload" size={24} color="#1c1917" />
+            <Feather name="upload" size={24} color="stone"/>
             <ThemedText
               fontFamily="sourceSans3Italic"
               type="title"
@@ -63,7 +63,7 @@ export default function Upload() {
             </ThemedText>
           </View>
         </TouchableOpacity>
-        <ThemedText className="text-center text-white mt-4 bg-white">
+        <ThemedText className="text-center text-white mt-4 bg-stone">
           Attach the dataset {"\n"}(.xls, .csv)
         </ThemedText>
         {status ? (
