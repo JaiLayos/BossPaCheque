@@ -1,38 +1,69 @@
 import React, { useState } from "react";
-import { SafeAreaView, View, Image, Text, TouchableOpacity } from "react-native";
-import * as DocumentPicker from "expo-document-picker"; // ✅ Keep this import
+import {
+  SafeAreaView,
+  View,
+  Image,
+  Text,
+  TouchableOpacity,
+} from "react-native";
+import * as DocumentPicker from "expo-document-picker";
+import * as FileSystem from "expo-file-system";
+import Papa from "papaparse";
+import { useRouter } from "expo-router";
+import { v4 as uuidv4 } from "uuid";
 import { uploadFile } from "@/services/ApiService";
-import { useRouter } from "expo-router"; // ✅ Import useRouter for navigation
+import { getColumnsWithNulls } from "@/services/checkNullColumns";
+import { NullColumnsModal } from "@/components/NullColumnsModal";
 import { ThemedText } from "@/components/ThemedText";
 import Feather from "@expo/vector-icons/Feather";
-import { v4 as uuidv4 } from "uuid"; // ✅ Ensure uuid is installed
 
 export default function Upload() {
   const [status, setStatus] = useState<string>("");
-  const router = useRouter(); // ✅ Initialize router for navigation
+  const [nullColumns, setNullColumns] = useState<string[]>([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const router = useRouter();
 
   const handleFileUpload = async () => {
     const result = await DocumentPicker.getDocumentAsync({
-      type: ["text/csv", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"],
+      type: ["text/csv"],
     });
-  
-    if (!result.canceled && result.assets && result.assets.length > 0) {
+
+    if (!result.canceled && result.assets?.length > 0) {
       const pickedFile = result.assets[0];
-    
-      const file = {
-        uri: pickedFile.uri,
-        name: pickedFile.name || "unknown",
-        type: pickedFile.mimeType || "application/octet-stream",
-      };
-    
-      const fileId = uuidv4();
-    
+      const fileUri = pickedFile.uri;
+
       try {
+        const fileContent = await FileSystem.readAsStringAsync(fileUri, {
+          encoding: FileSystem.EncodingType.UTF8,
+        });
+
+        const parsed = Papa.parse(fileContent, {
+          header: true,
+          skipEmptyLines: true,
+        });
+
+        const data = parsed.data as Record<string, string>[];
+        const colsWithNulls = getColumnsWithNulls(data);
+
+        if (colsWithNulls.length > 0) {
+          setNullColumns(colsWithNulls);
+          setModalVisible(true);
+          setStatus("Found null values in some columns.");
+          return;
+        }
+
+        const fileId = uuidv4();
+        const file = {
+          uri: fileUri,
+          name: pickedFile.name || "unknown",
+          type: pickedFile.mimeType || "text/csv",
+        };
+
         const response = await uploadFile(fileId, file);
-        setStatus(`File uploaded successfully: ${response.rows} rows, ${response.columns} columns`);
+        setStatus(`File uploaded: ${response.rows} rows, ${response.columns} columns`);
         router.push({ pathname: "/clean", params: { fileId } });
       } catch (error) {
-        setStatus("File upload failed.");
+        setStatus("Error processing file.");
         console.error(error);
       }
     } else {
@@ -53,7 +84,7 @@ export default function Upload() {
           onPress={handleFileUpload}
         >
           <View className="flex-row items-center">
-            <Feather name="upload" size={24} color="stone"/>
+            <Feather name="upload" size={24} color="stone" />
             <ThemedText
               fontFamily="sourceSans3Italic"
               type="title"
@@ -63,13 +94,20 @@ export default function Upload() {
             </ThemedText>
           </View>
         </TouchableOpacity>
+
         <ThemedText className="text-center text-white mt-4 bg-stone">
-          Attach the dataset {"\n"}(.xls, .csv)
+          Attach the dataset {"\n"}(.csv)
         </ThemedText>
-        {status ? (
-          <Text className="text-center text-black mt-4">{status}</Text>
-        ) : null}
+
+        {status ? <Text className="text-center text-black mt-4">{status}</Text> : null}
       </View>
+
+      {/* Floating Modal */}
+      <NullColumnsModal
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        nullColumns={nullColumns}
+      />
     </SafeAreaView>
   );
 }
