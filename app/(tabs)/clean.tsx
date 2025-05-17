@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, SafeAreaView, Text } from "react-native";
+import { Button, SafeAreaView, Text, TextInput, View } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { connectToWebSocket } from "@/services/WebSocketService";
 
@@ -8,9 +8,22 @@ export default function CleanScreen() {
   const { fileId } = useLocalSearchParams();
   const [status, setStatus] = useState<string>("");
   const [ws, setWs] = useState<WebSocket | null>(null);
-  const [actions, setActions] = useState<string[]>([]); // Store suggested actions from the backend
+  const [actions, setActions] = useState<string[]>([
+    "handle_nulls",
+    "remove_duplicates",
+    "check_unique",
+    "detect_misspellings",
+    "validate_types",
+    "standardize_units",
+    "convert_case",
+    "undo",
+    "export",
+    "preview"
+  ]); // Store suggested actions from the backend
+  const [columnName, setColumnName] = useState("");
+  const [preview, setPreview] = useState<any[]>([]);
 
-  useEffect(() => {
+useEffect(() => {
     if (fileId) {
       const socket = connectToWebSocket(fileId as string);
       setWs(socket);
@@ -18,29 +31,31 @@ export default function CleanScreen() {
       socket.onmessage = (event) => {
         const data = JSON.parse(event.data);
 
-        if (data.error) {
-          setStatus(`Error: ${data.error}`);
-        } else if (data.status) {
-          setStatus(data.status);
-        } else if (data.suggestedActions) {
-          setActions(data.suggestedActions); // Update actions dynamically
-        }
+        if (data.error) setStatus(`Error: ${data.error}`);
+        else if (data.status) setStatus(data.status);
+        else if (data.suggestedActions) setActions(data.suggestedActions);
+        else if (data.preview) setPreview(data.preview);
       };
 
-      return () => {
-        socket.close();
-      };
+      socket.onerror = () => setStatus("WebSocket error. Please try again.");
+      socket.onclose = () => setStatus("WebSocket closed.");
+
+      return () => socket.close();
     }
   }, [fileId]);
 
   const handleAction = (action: string, payload: object = {}) => {
-    if (ws) {
-      ws.send(JSON.stringify({ action, ...payload }));
-    }
+    if (ws) ws.send(JSON.stringify({ action, ...payload }));
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView>\
+      <TextInput
+        placeholder="Column name"
+        value={columnName}
+        onChangeText={setColumnName}
+        style={{ borderWidth: 1, margin: 8, padding: 4 }}
+      />
       {actions.includes("handle_nulls") && (
         <Button title="Handle Nulls" onPress={() => handleAction("handle_nulls", { strategy: "drop" })} />
       )}
@@ -72,6 +87,14 @@ export default function CleanScreen() {
         <Button title="Preview Data" onPress={() => handleAction("preview")} />
       )}
       <Text>{status}</Text>
+      {preview.length > 0 && (
+        <View>
+          <Text>Preview:</Text>
+          {preview.map((row, idx) => (
+            <Text key={idx}>{JSON.stringify(row)}</Text>
+          ))}
+        </View>
+      )}
     </SafeAreaView>
   );
 }
