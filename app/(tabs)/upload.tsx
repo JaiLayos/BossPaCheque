@@ -25,12 +25,19 @@ export default function Upload() {
 
   const handleFileUpload = async () => {
     const result = await DocumentPicker.getDocumentAsync({
-      type: ["text/csv"],
+      type: "*/*", 
     });
 
     if (!result.canceled && result.assets?.length > 0) {
       const pickedFile = result.assets[0];
       const fileUri = pickedFile.uri;
+      const fileName = pickedFile.name || "";
+      const isCsv = fileName.toLowerCase().endsWith(".csv") || pickedFile.mimeType === "text/csv";
+
+      if (!isCsv) {
+        setStatus("Only CSV files are supported. Please select a .csv file.");
+        return;
+      }
 
       try {
         const fileContent = await FileSystem.readAsStringAsync(fileUri, {
