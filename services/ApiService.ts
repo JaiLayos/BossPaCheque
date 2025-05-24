@@ -11,7 +11,7 @@ export const uploadFile = async (fileId: string, file: { uri: string; name: stri
 
   const endpoint = ENDPOINTS.uploadFile.replace("{file_id}", fileId);
 
-  const response = await fetch(`${process.env.EXPO_PUBLIC_API_BASE_URL}${endpoint}`, {
+  const response = await fetch(`${process.env.EXPO_PUBLIC_API}${endpoint}`, {
     method: "POST",
     headers: {
       "Content-Type": "multipart/form-data",

@@ -1,3 +1,4 @@
+import 'react-native-get-random-values';
 import { StyleSheet, Text, View } from 'react-native'
 import {Slot, Stack} from 'expo-router'
 import React from 'react'
