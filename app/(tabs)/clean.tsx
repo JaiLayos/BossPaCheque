@@ -63,19 +63,19 @@ useEffect(() => {
         <Button title="Remove Duplicates" onPress={() => handleAction("remove_duplicates")} />
       )}
       {actions.includes("check_unique") && (
-        <Button title="Check Unique" onPress={() => handleAction("check_unique", { column: "column_name" })} />
+        <Button title="Check Unique" onPress={() => handleAction("check_unique", { column: column_name })} />
       )}
       {actions.includes("detect_misspellings") && (
-        <Button title="Detect Misspellings" onPress={() => handleAction("detect_misspellings", { column: "column_name" })} />
+        <Button title="Detect Misspellings" onPress={() => handleAction("detect_misspellings", { column: column_name })} />
       )}
       {actions.includes("validate_types") && (
-        <Button title="Validate Types" onPress={() => handleAction("validate_types", { column_types: { column_name: "int" } })} />
+        <Button title="Validate Types" onPress={() => handleAction("validate_types", { column_types: { [column_name]: "int" } })} />
       )}
       {actions.includes("standardize_units") && (
-        <Button title="Standardize Units" onPress={() => handleAction("standardize_units", { column: "column_name", factor: 1000 })} />
+        <Button title="Standardize Units" onPress={() => handleAction("standardize_units", { column: [column_name], factor: 1000 })} />
       )}
       {actions.includes("convert_case") && (
-        <Button title="Convert Case" onPress={() => handleAction("convert_case", { case: "upper", columns: ["column_name"] })} />
+        <Button title="Convert Case" onPress={() => handleAction("convert_case", { case: "upper", columns: [column_name] })} />
       )}
       {actions.includes("undo") && (
         <Button title="Undo" onPress={() => handleAction("undo")} />
