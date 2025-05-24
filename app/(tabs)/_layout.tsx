@@ -17,6 +17,8 @@ const Rootlayout = () => {
         options={{ headerShown: false }} />
         <Stack.Screen name="mismatched" 
         options={{ headerShown: false }} />
+        <Stack.Screen name="checkNull" 
+        options={{ headerShown: false }} />
     </Stack>
   )
 }

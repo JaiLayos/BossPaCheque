@@ -25,3 +25,6 @@ export const uploadFile = async (fileId: string, file: { uri: string; name: stri
 
   return await response.json();
 };
+
+// services/ApiService.ts
+
