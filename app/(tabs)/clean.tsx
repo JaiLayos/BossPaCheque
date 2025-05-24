@@ -20,7 +20,7 @@ export default function CleanScreen() {
     "export",
     "preview"
   ]); // Store suggested actions from the backend
-  const [columnName, setColumnName] = useState("");
+  const [column_name, setColumnName] = useState("");
   const [preview, setPreview] = useState<any[]>([]);
 
 useEffect(() => {
@@ -49,10 +49,10 @@ useEffect(() => {
   };
 
   return (
-    <SafeAreaView>\
+    <SafeAreaView>
       <TextInput
         placeholder="Column name"
-        value={columnName}
+        value={column_name}
         onChangeText={setColumnName}
         style={{ borderWidth: 1, margin: 8, padding: 4 }}
       />

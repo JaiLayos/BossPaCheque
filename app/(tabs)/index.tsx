@@ -16,7 +16,18 @@ const helpIcon = Asset.fromModule(require("@/assets/images/whatsthis.png")).uri;
 export default function Index() {
 
   return (
-    <SafeAreaView className="flex-1 w-full bg-white items-center py-12">
+    <SafeAreaView className="flex-1 w-full bg-white items-center py-32">
+      <View className="absolute left-2 top-4 z-10">
+        <Image
+          source={require('@/assets/images/logo.png')}
+          style={{ width: 200, height: 80 }}
+          contentFit='contain'
+        />
+      </View>
+            <Image
+              className="w-40 h-16 px-4 mb-10 ml-4 mt-5 self-start"
+              source={require("@/assets/images/logo.png")}
+            />
       <HapticTab 
         className="border-2 border-secondary_nuance w-5/6 mt-5 items-center flex rounded-xl shadow" 
         onPress={() => router.navigate('/upload')}
@@ -27,7 +38,6 @@ export default function Index() {
             style={{ width: 190, height: 170 }}
             contentFit='cover'
           />
-          {/* implementation of new font */}
           <ThemedText  
             fontFamily='spaceMonoRegular'
             className='text-center'
