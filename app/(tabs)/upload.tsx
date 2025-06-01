@@ -1,3 +1,4 @@
+import 'react-native-get-random-values';
 import React, { useState } from "react";
 import {
   SafeAreaView,
@@ -7,12 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import * as DocumentPicker from "expo-document-picker";
-import * as FileSystem from "expo-file-system";
-import Papa from "papaparse";
 import { useRouter } from "expo-router";
-import { v4 as uuidv4 } from "uuid";
-import { uploadFile } from "@/services/ApiService";
-import { getColumnsWithNulls } from "@/services/checkNullColumns";
 import { NullColumnsModal } from "@/components/NullColumnsModal";
 import { ThemedText } from "@/components/ThemedText";
 import Feather from "@expo/vector-icons/Feather";
@@ -40,35 +36,19 @@ export default function Upload() {
       }
 
       try {
-        const fileContent = await FileSystem.readAsStringAsync(fileUri, {
-          encoding: FileSystem.EncodingType.UTF8,
-        });
-
-        const parsed = Papa.parse(fileContent, {
-          header: true,
-          skipEmptyLines: true,
-        });
-
-        const data = parsed.data as Record<string, string>[];
-        const colsWithNulls = getColumnsWithNulls(data);
-
-        if (colsWithNulls.length > 0) {
-          setNullColumns(colsWithNulls);
-          setModalVisible(true);
-          setStatus("Found null values in some columns.");
-          return;
-        }
-
-        const fileId = uuidv4();
         const file = {
           uri: fileUri,
           name: pickedFile.name || "unknown",
           type: pickedFile.mimeType || "text/csv",
         };
-
-        const response = await uploadFile(fileId, file);
-        setStatus(`File uploaded: ${response.rows} rows, ${response.columns} columns`);
-        router.push({ pathname: "/clean", params: { fileId } });
+        router.push({
+          pathname: "/checkNull",
+          params: {
+            fileUri: file.uri,
+            fileName: pickedFile.name || "unknown.csv",
+            fileType: pickedFile.mimeType || "text/csv",
+          },
+        });
       } catch (error) {
         setStatus("Error processing file.");
         console.error(error);
